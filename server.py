@@ -26,9 +26,9 @@ def get_strategy():
     return fl.server.strategy.FedAvg(
         fraction_fit=1.0,
         fraction_evaluate=1.0,
-        min_fit_clients=3,
-        min_evaluate_clients=3,
-        min_available_clients=3,
+        min_fit_clients=1,
+        min_evaluate_clients=1,
+        min_available_clients=1,
         evaluate_metrics_aggregation_fn=weighted_average,
         initial_parameters=None,
     )
