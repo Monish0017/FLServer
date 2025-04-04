@@ -2,6 +2,10 @@ import flwr as fl
 from typing import Dict, List, Tuple
 import numpy as np
 import time
+import logging
+
+# Optional: Better log visibility
+logging.basicConfig(level=logging.INFO)
 
 # Define metric aggregation for FedAvg
 def weighted_average(metrics: List[Tuple[int, Dict[str, float]]]) -> Dict[str, float]:
@@ -35,17 +39,19 @@ def get_strategy():
 
 # Start the Flower server
 def start_server():
+    logging.info("Starting Flower server on TCP port 10000 (Render-compatible)...")
+
     fl.server.start_server(
-        server_address="0.0.0.0:8080",
+        server_address="0.0.0.0:10000",  # Use TCP port 10000 for Render
         config=fl.server.ServerConfig(num_rounds=20),
         strategy=get_strategy(),
     )
-    
-    print("Training completed. Server is now idle and running...")
 
-    # Keep the server running indefinitely
-    while True:
-        time.sleep(60)  # Sleep 60 seconds (adjust if needed)
+    logging.info("✅ FL Training completed. Flower server execution finished.")
+
+    # Optional: Keep alive if running as a long-lived service
+    # while True:
+    #     time.sleep(60)
 
 if __name__ == "__main__":
     start_server()
